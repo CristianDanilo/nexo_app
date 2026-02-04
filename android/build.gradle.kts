@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Esta es la pieza que le falta a Android para entender el JSON de Firebase
+        classpath("com.google.gms:google-services:4.4.1")
+    }
+}
 allprojects {
     repositories {
         google()
