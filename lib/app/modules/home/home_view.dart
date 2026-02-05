@@ -48,35 +48,52 @@ class HomeView extends GetView<HomeController> {
           itemCount: controller.characters.length,
           itemBuilder: (context, index) {
             final character = controller.characters[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: ListTile(
-                onTap: () {
-                  Get.toNamed('/details', arguments: character);
-                },
-                leading: Hero(
-                  tag: character.id,
-                  child: CachedNetworkImage(
-                    imageUrl: character.image,
-                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                      backgroundImage: imageProvider,
-                    ),
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
-                ),
-                title: Text(
-                  character.name, 
-                  style: const TextStyle(fontWeight: FontWeight.bold)
-                ),
-                subtitle: Text("${character.species} - ${character.status}"),
-                trailing: Icon(
-                  Icons.circle,
-                  color: character.status == "Alive" ? Colors.green : Colors.red,
-                  size: 12,
-                ),
-              ),
-            );
+return Container(
+  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  decoration: BoxDecoration(
+    color: Theme.of(context).colorScheme.surface,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      width: 1,
+    ),
+  ),
+  child: ListTile(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    onTap: () => Get.toNamed('/details', arguments: character),
+    leading: Hero(
+      tag: character.id,
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            colors: [Colors.greenAccent, Colors.blueAccent.withOpacity(0.5)],
+          ),
+        ),
+        child: CircleAvatar(
+          radius: 28,
+          backgroundImage: CachedNetworkImageProvider(character.image),
+        ),
+      ),
+    ),
+    title: Text(
+      character.name,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    ),
+    subtitle: Row(
+      children: [
+        Icon(Icons.circle, 
+          size: 10, 
+          color: character.status == "Alive" ? Colors.greenAccent : Colors.redAccent
+        ),
+        const SizedBox(width: 6),
+        Text("${character.status} - ${character.species}"),
+      ],
+    ),
+    trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white38),
+  ),
+);
           },
         );
       }),

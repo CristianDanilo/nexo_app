@@ -29,7 +29,27 @@ void main() async {
       // Si isLoggedIn es true, va a /home, si no a /login
       initialRoute: isLoggedIn ? '/home' : '/login',
       getPages: AppPages.routes,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.dark,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: const Color(0xFF00FF94), // Verde Neón Rick & Morty
+    brightness: Brightness.dark,
+    primary: const Color(0xFF00FF94),
+    surface: const Color(0xFF12181F), // Fondo de tarjetas
+  ),
+  scaffoldBackgroundColor: const Color(0xFF0A0E14), // Fondo general
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color(0xFF0A0E14),
+    elevation: 0,
+    centerTitle: true,
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
+      color: Colors.white,
+    ),
+  ),
+),
     ),
   );
 }
