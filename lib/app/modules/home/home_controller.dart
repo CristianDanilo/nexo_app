@@ -49,7 +49,7 @@ void fetchNextPage() async {
         var list = data['results'] as List;
 
         var newCharacters = list.map((e) => Character.fromJson(e)).toList();
-        characters.addAll(newCharacters); // Corregido: antes decía character
+        characters.addAll(newCharacters); 
 
         if (data['info']['next'] == null) {
           hasMore.value = false;
@@ -71,7 +71,6 @@ void loadLocalData() {
         characters.value = decoded.map((e) => Character.fromJson(e)).toList();
         isLoading.value = false;
       } catch (e) {
-        // En lugar de isLoggedIn = false (que no existe), hacemos esto:
         _sessionBox.put('isLoggedIn', false); 
         if (kDebugMode) {
           debugPrint("❌ Error Hive: $e");
@@ -82,7 +81,7 @@ void loadLocalData() {
 
   void fetchCharacters() async {
     try {
-      // Si ya tenemos datos locales, no mostramos el loader circular
+      // Si tenemos datos locales
       if (characters.isEmpty) isLoading.value = true;
 
       var response = await http.get(Uri.parse('https://rickandmortyapi.com/api/character'))

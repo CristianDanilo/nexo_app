@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'home_controller.dart';
-import '../../data/models/character_model.dart'; // Asegúrate de importar tu modelo
+import '../../data/models/character_model.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);

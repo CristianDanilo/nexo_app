@@ -104,4 +104,4 @@ class LoginController extends GetxController {
     passwordController.dispose();
     super.onClose();
   }
-} // La llave ahora cierra TODA la clase correctamente
+} 

@@ -112,7 +112,7 @@ Widget _buildInfoRow(IconData icon, String label, String value, {Color? color}) 
                 fontWeight: FontWeight.bold,
               ),
               softWrap: true, // Permite que el texto baje a la siguiente línea
-              overflow: TextOverflow.visible, // O puedes usar TextOverflow.ellipsis para poner "..."
+              overflow: TextOverflow.visible,
             ),
           ],
         ),
