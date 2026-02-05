@@ -3,6 +3,7 @@ import '../modules/login/login_view.dart';
 import '../modules/login/login_controller.dart';
 import '../modules/home/home_view.dart';       // IMPORTA
 import '../modules/home/home_controller.dart'; // IMPORTA
+import '../modules/home/details_view.dart';
 
 class AppPages {
   static const initial = '/login';
@@ -23,5 +24,9 @@ class AppPages {
         Get.lazyPut<HomeController>(() => HomeController());
       }),
     ),
+    GetPage(
+  name: '/details',
+  page: () => const DetailsView(),
+),
   ];
 }
