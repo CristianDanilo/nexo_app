@@ -11,7 +11,7 @@ void main() async {
   try {
     await Firebase.initializeApp();
   } catch (e) {
-    print("Error Firebase: $e");
+    debugPrint("Error Firebase: $e");
   }
 
   // 2. Inicializar Hive y abrir el box
@@ -19,7 +19,7 @@ void main() async {
   var box = await Hive.openBox('sessionBox');
 
   // 3. Leer si el usuario ya estaba logueado
-  // Usamos una coma (,) no una "m"
+  // Usamos una coma (,)
   bool isLoggedIn = box.get('isLoggedIn', defaultValue: false);
 
   runApp(
