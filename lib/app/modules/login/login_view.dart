@@ -35,7 +35,11 @@ class LoginView extends GetView<LoginController> {
               ? const CircularProgressIndicator() 
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50)),
-                  onPressed: () => controller.login(emailController.text, passwordController.text),
+                  onPressed: () {
+                    controller.email.value = emailController.text;
+                    controller.password.value = passwordController.text;
+                    controller.login();
+                  },
                   child: const Text("Ingresar"),
                 )
             ),

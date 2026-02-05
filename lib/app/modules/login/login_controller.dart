@@ -1,38 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 class LoginController extends GetxController {
-  // 1. Instancia de Firebase Auth para comunicarnos con la nube
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // 2. Variables reactivas (.obs). GetX redibujará la pantalla cuando estas cambien.
+  // Variables para capturar el texto (asegúrate de usarlas en tu vista)
+  var email = ''.obs;
+  var password = ''.obs;
   var isLoading = false.obs;
 
-  // 3. Función para iniciar sesión
-  Future<void> login(String email, String password) async {
-    if (email.isEmpty || password.isEmpty) {
+  void login() async {
+    if (email.value.isEmpty || password.value.isEmpty) {
       Get.snackbar("Error", "Por favor llena todos los campos");
       return;
     }
 
     try {
-      isLoading.value = true; // Iniciamos la carga
-      
-      // Intento de login en Firebase
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      
-      // Si tiene éxito, mandamos al Home (la crearemos luego)
-      Get.offAllNamed('/home'); 
-      
-    } on FirebaseAuthException catch (e) {
-      // Manejo de errores específicos de Firebase
-      String message = "Ocurrió un error";
-      if (e.code == 'user-not-found') message = "Usuario no encontrado";
-      if (e.code == 'wrong-password') message = "Contraseña incorrecta";
-      
-      Get.snackbar("Login Fallido", message, snackPosition: SnackPosition.BOTTOM);
+      isLoading.value = true;
+
+      // 1. Intentamos login con Firebase
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email.value.trim(),
+        password: password.value.trim(),
+      );
+
+      if (userCredential.user != null) {
+        // 2. GUARDAMOS EN HIVE EL ESTADO EXITOSO
+        var box = Hive.box('sessionBox');
+        await box.put('isLoggedIn', true);
+        
+        Get.offAllNamed('/home');
+      }
+    } catch (e) {
+      // 3. MANEJO DE ERROR OFFLINE O CREDENCIALES
+      if (e.toString().contains('network-request-failed')) {
+        Get.snackbar("Modo Offline", "No hay internet para validar nuevas credenciales");
+      } else {
+        Get.snackbar("Error de acceso", "Correo o contraseña incorrectos");
+      }
     } finally {
-      isLoading.value = false; // Detenemos la carga pase lo que pase
+      isLoading.value = false;
     }
   }
 }
